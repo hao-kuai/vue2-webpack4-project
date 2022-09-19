@@ -11,11 +11,5 @@ module.exports = {
         // 文件路径
         path: path.resolve(process.cwd(), 'dist')
     },
-    module: {
-        rules: [{
-            test: /\.css$/,
-            use: ['style-loader','css-loader']
-        }]
-    }
 };
 
