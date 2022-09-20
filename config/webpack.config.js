@@ -1,13 +1,23 @@
 const path = require('path');
+const HtmlWebpackPlugin  = require("html-webpack-plugin");
+const { CleanWebpackPlugin }  = require('clean-webpack-plugin');
+
 module.exports = {
     // 指定打包模式：development、production
     mode: "development",
     // entry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。
     entry: './src/index.js',
+    plugins: [
+        // 输出路径下所有文件都将被清除
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title: "5. 管理输出"
+        })
+    ],
     // 输出文件配置
     output: {
         // 文件名称
-        filename: 'main.js',
+        filename: '[name].bundle.js',
         // 文件路径
         path: path.resolve(process.cwd(), 'dist')
     },
