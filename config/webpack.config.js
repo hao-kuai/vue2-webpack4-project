@@ -7,12 +7,20 @@ module.exports = {
     mode: "development",
     // entry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。
     entry: './src/index.js',
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'public'),
+        },
+        // 开启HMR
+        hot:true,
+        open:true
+   },
     plugins: [
         // 输出路径下所有文件都将被清除
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: "5. 管理输出"
-        })
+            title: "6. webpack-dev-server 简单使用"
+        }),
     ],
     // 输出文件配置
     output: {
