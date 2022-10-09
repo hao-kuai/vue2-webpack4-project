@@ -1,12 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin  = require("html-webpack-plugin");
 const { CleanWebpackPlugin }  = require('clean-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
     // 指定打包模式：development、production
     mode: "development",
     // entry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。
-    entry: './src/index.js',
+    entry: './src/main.js',
     devServer: {
         static: {
             directory: path.join(__dirname, 'public'),
@@ -19,8 +20,12 @@ module.exports = {
         // 输出路径下所有文件都将被清除
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: "6. webpack-dev-server 简单使用"
+            //指定模板路径
+            template: path.resolve(process.cwd(), 'public/index.html')
         }),
+        // 这个插件是必须的！ 它的职责是将你定义过的其它规则复制并应用到 .vue 文件里相应语言的块。
+        // 例如，如果你有一条匹配 /\.js$/ 的规则，那么它会应用到 .vue 文件里的 <script> 块。
+        new VueLoaderPlugin()
     ],
     // 输出文件配置
     output: {
@@ -31,6 +36,11 @@ module.exports = {
     },
     module: {
         rules: [
+            //添加 vue 支持
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
             //添加 css 支持
             {
                 test: /\.css$/i,

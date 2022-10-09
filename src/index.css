@@ -7,14 +7,3 @@
     font-weight: 600;
     font-style: normal;
 }
-
-.hello {
-    color: red;
-    /*引用字体*/
-    font-family: "MyFont";
-}
-
-.image {
-    width: 200px;
-    height: 200px;
-}
