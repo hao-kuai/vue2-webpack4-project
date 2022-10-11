@@ -1,3 +1,6 @@
-export default function textPrint(){
-    console.log("textPrint-change")
+export  function textPrint(){
+    console.log("textPrint")
+}
+export  function textPrint2(){
+    console.log("textPrint2")
 }

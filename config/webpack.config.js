@@ -1,11 +1,17 @@
 const path = require('path');
-const HtmlWebpackPlugin  = require("html-webpack-plugin");
-const { CleanWebpackPlugin }  = require('clean-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader')
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const {VueLoaderPlugin} = require('vue-loader');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
+
+//定义模式变量，区别加载plugin、loader
+const mode = "production";
+const devMode = mode !== "production";
 module.exports = {
     // 指定打包模式：development、production
-    mode: "development",
+    mode: mode,
     // entry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。
     entry: './src/main.js',
     devServer: {
@@ -13,20 +19,27 @@ module.exports = {
             directory: path.join(__dirname, 'public'),
         },
         // 开启HMR
-        hot:true,
-        open:true
-   },
+        hot: true,
+        open: true
+    },
+    optimization: {
+        //开发模式不提取 CSS
+        minimizer: [].concat(devMode ? [] : [new OptimizeCSSAssetsPlugin({})])
+    },
     plugins: [
         // 输出路径下所有文件都将被清除
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             //指定模板路径
-            template: path.resolve(process.cwd(), 'public/index.html')
+            template: path.resolve(process.cwd(), 'public/index.html'),
+            minify: true
         }),
         // 这个插件是必须的！ 它的职责是将你定义过的其它规则复制并应用到 .vue 文件里相应语言的块。
         // 例如，如果你有一条匹配 /\.js$/ 的规则，那么它会应用到 .vue 文件里的 <script> 块。
-        new VueLoaderPlugin()
-    ],
+        new VueLoaderPlugin(),
+
+    ].concat(devMode ? [] : [
+        new MiniCssExtractPlugin()]),// 开发模式不提取 CSS
     // 输出文件配置
     output: {
         // 文件名称
@@ -44,14 +57,27 @@ module.exports = {
             //添加 css 支持
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader']
+                // use: ['style-loader', 'css-loader']
+                // 开发模式：style-loader ；生产模式：MiniCssExtractPlugin
+                use: [devMode ? "style-loader" : MiniCssExtractPlugin.loader, 'css-loader']
             },
             //添加 图片 支持
             {
                 test: /\.(png|jpe?g|gif)$/i,
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: 'url-loader',
+                        options: {
+                            //单位：bytes （icon 图片压缩后的体积2小于 25K）
+                            limit: 25 *1024,
+                        },
+                    },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            // webpack@2.x and newer
+                            disable: devMode,
+                        },
                     },
                 ],
             },
