@@ -7,3 +7,11 @@
     font-weight: 600;
     font-style: normal;
 }
+
+@custom-media --narrow-window (max-width: 30em);
+
+@media (--narrow-window) {
+    .hello{
+        color: red;
+    }
+}

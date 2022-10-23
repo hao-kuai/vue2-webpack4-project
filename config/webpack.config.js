@@ -59,7 +59,20 @@ module.exports = {
                 test: /\.css$/i,
                 // use: ['style-loader', 'css-loader']
                 // 开发模式：style-loader ；生产模式：MiniCssExtractPlugin
-                use: [devMode ? "style-loader" : MiniCssExtractPlugin.loader, 'css-loader']
+                use: [devMode ? "style-loader" : MiniCssExtractPlugin.loader, 'css-loader', "postcss-loader"]
+            },
+            //添加 sass 支持
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    // 开发模式：style-loader ；生产模式：MiniCssExtractPlugin
+                    devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+                    // Translates CSS into CommonJS
+                    "css-loader",
+                    "postcss-loader",
+                    // Compiles Sass to CSS
+                    "sass-loader",
+                ],
             },
             //添加 图片 支持
             {
@@ -69,7 +82,7 @@ module.exports = {
                         loader: 'url-loader',
                         options: {
                             //单位：bytes （icon 图片压缩后的体积2小于 25K）
-                            limit: 25 *1024,
+                            limit: 25 * 1024,
                         },
                     },
                     {

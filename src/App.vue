@@ -1,9 +1,9 @@
 <template>
 <div class="hello" @click="textClick">
   Hello webpack !
-  <img :src="iconImage">
-  <img :src="iconImage2">
-  <img :src="chartImage">
+  <img :src="iconImage" class="image">
+  <img :src="iconImage2" class="image">
+  <img :src="chartImage" class="image">
 </div>
 </template>
 
@@ -27,10 +27,15 @@ export default {
 }
 </script>
 
-<style >
+<style lang="scss">
 .hello {
   color: red;
+  transition: all .5s;
   /*引用字体*/
   font-family: "MyFont";
+  .image{
+    width: 300px;
+    height: 300px;
+  }
 }
 </style>
