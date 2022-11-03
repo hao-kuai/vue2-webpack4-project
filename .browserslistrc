@@ -4,4 +4,12 @@
 # 测试自动补全浏览器厂商前缀使用
 # last 4 versions
 
- > 0.5%, last 4 versions,  not dead
+# 测试 Array.findLast() polyfill
+# 进行polyfill
+chrome >= 96
+# 不进行polyfill
+# chrome >= 97
+
+
+
+

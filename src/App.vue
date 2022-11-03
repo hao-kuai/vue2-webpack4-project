@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {textPrint} from "./js/textPrint";
+import {arrowFunc, textPrint} from "./js/textPrint";
 import iconImage from "./image/icon.jpg";
 import iconImage2 from "./image/image2.jpeg";
 import chartImage from "./image/chart.png";
@@ -21,7 +21,13 @@ export default {
   },
   methods:{
     textClick(){
-      textPrint()
+      textPrint();
+      arrowFunc();
+      this.polyfillMethod()
+    },
+    polyfillMethod(){
+      const arr = ["1","2"];
+      console.log("array-includes:",arr.includes("1"))
     }
   }
 }

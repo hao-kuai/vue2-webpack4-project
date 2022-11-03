@@ -7,13 +7,14 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 
 //定义模式变量，区别加载plugin、loader
-const mode = "production";
+const mode = "development";
 const devMode = mode !== "production";
 module.exports = {
     // 指定打包模式：development、production
     mode: mode,
     // entry 对象是用于 webpack 查找启动并构建 bundle。其上下文是入口文件所处的目录的绝对路径的字符串。
-    entry: './src/main.js',
+    // entry: ["@babel/polyfill", "./src/main.js"],
+    entry:"./src/main.js",
     devServer: {
         static: {
             directory: path.join(__dirname, 'public'),
@@ -49,6 +50,17 @@ module.exports = {
     },
     module: {
         rules: [
+            //添加 babel 支持
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        rootMode: "upward",
+                    }
+                }
+            },
             //添加 vue 支持
             {
                 test: /\.vue$/,
@@ -105,3 +117,8 @@ module.exports = {
     }
 };
 
+{
+    module: {
+        rules: []
+    }
+}
